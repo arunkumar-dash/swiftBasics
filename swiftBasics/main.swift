@@ -78,3 +78,57 @@ extension Array {
 }
 
 print(games.column(\Videogame.title))
+
+//mirror
+var mirror = Mirror(reflecting: cyberpunk)
+print("Mirror")
+for i in mirror.children{
+    print("\(i.label ?? ""): \(i.value)")
+}
+
+//filemanager
+print(String(repeating: "-", count: 10),"FileManager")
+
+let completePath = "/Users/arun-pt4306/Downloads/users1.json"
+let home = FileManager.default.homeDirectoryForCurrentUser
+let playgroundPath = "Downloads/users1.json"
+let playgroundUrl = home.appendingPathComponent(playgroundPath)
+print(playgroundUrl.path)
+print(playgroundUrl.absoluteString)
+print(playgroundUrl.absoluteURL)
+print(playgroundUrl.baseURL)
+print(playgroundUrl.pathComponents)
+print(playgroundUrl.lastPathComponent)
+print(playgroundUrl.pathExtension)
+print(playgroundUrl.isFileURL)
+print(playgroundUrl.hasDirectoryPath)
+
+var urlForEditing = home
+print(urlForEditing.path)
+
+urlForEditing.appendPathComponent("Downloads")
+print(urlForEditing.path)
+
+urlForEditing.appendPathComponent("Test file")
+print(urlForEditing.path)
+
+urlForEditing.appendPathExtension("txt")
+print(urlForEditing.path)
+
+urlForEditing.deletePathExtension()
+print(urlForEditing.path)
+
+urlForEditing.deleteLastPathComponent()
+print(urlForEditing.path)
+
+
+let fileUrl = home
+    .appendingPathComponent("Downloads")
+    .appendingPathComponent("Test file")
+    .appendingPathExtension("txt")
+print(fileUrl.path)
+
+let desktopUrl = fileUrl.deletingLastPathComponent()
+print(desktopUrl.path)
+
+
