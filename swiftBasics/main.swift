@@ -103,6 +103,8 @@ print(playgroundUrl.pathExtension)
 print(playgroundUrl.isFileURL)
 print(playgroundUrl.hasDirectoryPath)
 
+print(URL(string: "https://webtech.training.oregonstate.edu/faq/what-base-url")?.baseURL) //prints nil always
+
 var urlForEditing = home
 print(urlForEditing.path)
 
@@ -131,4 +133,13 @@ print(fileUrl.path)
 let desktopUrl = fileUrl.deletingLastPathComponent()
 print(desktopUrl.path)
 
+fileManager = FileManager.default
+print(fileManager.fileExists(atPath: desktopUrl.path))
+
+let missingFile = URL(fileURLWithPath: "this_file_does_not_exist.missing")
+print(fileManager.fileExists(atPath: missingFile.path))
+
+var isDirectory: ObjCBool = false
+fileManager.fileExists(atPath: desktopUrl.path, isDirectory: &isDirectory)
+print(isDirectory.boolValue)
 
