@@ -143,3 +143,93 @@ var isDirectory: ObjCBool = false
 fileManager.fileExists(atPath: desktopUrl.path, isDirectory: &isDirectory)
 print(isDirectory.boolValue)
 
+print(URL(string: "/gs/ab", relativeTo: URL(string: "https://google.co.in"))?.absoluteURL)
+
+do{
+    try print(URL(string: "/gs/ab", relativeTo: URL(string: "https://google.co.in"))?.bookmarkData().description)
+}
+catch{
+    print("didn't show bookmark")
+}
+
+//comparable
+
+struct Orange: Comparable{
+    var size: Int
+    init(ofSize size: Int){
+        self.size=size
+    }
+    static func <(lhs: Orange, rhs: Orange) -> Bool{
+        return lhs.size<rhs.size
+    }
+    static func ==(lhs: Orange, rhs: Orange) -> Bool{
+        return lhs.size==rhs.size
+    }
+}
+
+//urlsession
+
+// default configuration, store cache and cookie in the disk storage and other urlsession can access it
+let config = URLSessionConfiguration.default
+let session = URLSession(configuration: config)
+var jsonString : String?
+config.httpAdditionalHeaders = ["User-Agent":"Legit Safari", "Authorization" : "Bearer key1234567"]
+config.timeoutIntervalForRequest = 30
+// use saved cache data if exist, else call the web API to retrieve
+config.requestCachePolicy = NSURLRequest.CachePolicy.returnCacheDataElseLoad
+
+let url = URL(string: "https://ap.chucknorris.io/jokes/random")!
+let task = session.dataTask(with: url) { data, response, error in
+
+    // ensure there is no error for this HTTP response
+    guard error == nil else {
+        print ("error: \(error!)")
+        return
+    }
+    
+    // ensure there is data returned from this HTTP response
+    guard let content = data else {
+        print("No data")
+        return
+    }
+    
+    // serialise the data / NSData object into Dictionary [String : Any]
+    guard let json = (try? JSONSerialization.jsonObject(with: content, options: JSONSerialization.ReadingOptions.mutableContainers)) as? [String: Any] else {
+        print("Not containing JSON")
+        return
+    }
+    jsonString = String(json.description)
+    print("gotten json response dictionary is \n \(json)")
+    // update UI using the response here
+}
+
+// execute the HTTP request
+task.resume()
+print("task started")
+sleep(5)
+
+struct Response: Codable
+{
+    struct User: Codable {
+        var firstName: String
+        var lastName: String
+        var country: String
+        
+        enum CodingKeys: String, CodingKey{
+            case firstName = "first_name"
+            case lastName = "last_name"
+            case country
+        }
+    }
+
+    var users: [User]
+}
+
+//let jsonData = jsonString ?? "".data(using: .utf8)!
+//let users = try! JSONDecoder().decode(Response.self, from: jsonData)
+//
+//for user in users.users {
+//    print(user.firstName)
+//}
+
+
