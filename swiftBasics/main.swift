@@ -84,6 +84,7 @@ var mirror = Mirror(reflecting: cyberpunk)
 print("Mirror")
 for i in mirror.children{
     print("\(i.label ?? ""): \(i.value)")
+    print("test")
 }
 
 //filemanager
