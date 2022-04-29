@@ -86,7 +86,6 @@ for i in mirror.children{
     print("\(i.label ?? ""): \(i.value)")
     print("test")
 }
-print("test main")
 
 //filemanager
 print(String(repeating: "-", count: 10),"FileManager")
